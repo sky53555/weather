@@ -13,35 +13,37 @@
 
   <body>
     <div class="allWrap">
-      <h2>Today's Weather</h2>
-      <div class="inputArea">
-        <input type="text" placeholder="나라를 입력해주세요" class="name" />
-        <button><i class="fa-solid fa-magnifying-glass"></i></button>
-      </div>
-      <div class="wrap">
-        <ul class="weather">
-          <li><div id="icon"></div></li>
-          <li><span id="temp"></span></li>
-          <li>
-            <span id="year"></span>년 <span id="month"></span>월
-            <span id="date"></span>일
-          </li>
-          <li><span id="place"></span></li>
-          <li><span id="des"></span></li>
-        </ul>
-        <div class="else">
-          <div class="wrap">
-            <img src="mo.png" alt="" />
-            <span id="mo"></span>
-          </div>
-          <div class="wrap">
-            <img src="wind.png" alt="" />
-            <span id="wind"></span>
+      <div class="center">
+        <h2>Today's Weather</h2>
+        <div class="inputArea">
+          <input type="text" placeholder="나라를 입력해주세요" class="name" />
+          <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <div class="wrap">
+          <ul class="weather">
+            <li><div id="icon"></div></li>
+            <li><span id="temp"></span></li>
+            <li>
+              <span id="year"></span>년 <span id="month"></span>월
+              <span id="date"></span>일
+            </li>
+            <li><span id="place"></span></li>
+            <li><span id="des"></span></li>
+          </ul>
+          <div class="else">
+            <div class="wrap">
+              <img src="mo.png" alt="" />
+              <span id="mo"></span>
+            </div>
+            <div class="wrap">
+              <img src="wind.png" alt="" />
+              <span id="wind"></span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
+    <script src="key.js"></script>
     <script src="weather.js"></script>
   </body>
 </html>
