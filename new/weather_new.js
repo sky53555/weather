@@ -1,4 +1,4 @@
-const api_key = config.apikey;
+const api_key = "e97d8ff6fd1cafbcba402e48257e2475";
 let temp = document.querySelector("#temp");
 let place = document.querySelector("#place");
 let wind = document.querySelector("#wind");
