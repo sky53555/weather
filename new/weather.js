@@ -1,4 +1,4 @@
-const api_key = config.apikey;
+// const api_key = "e97d8ff6fd1cafbcba402e48257e2475";
 let temp = document.querySelector("#temp");
 let place = document.querySelector("#place");
 let wind = document.querySelector("#wind");
@@ -6,7 +6,6 @@ let des = document.querySelector("#des");
 let icon = document.querySelector("#icon");
 let btn = document.querySelector("button");
 let mo = document.querySelector("#mo");
-let cityName = document.querySelector(".name");
 
 let year = document.querySelector("#year");
 let month = document.querySelector("#month");
@@ -16,20 +15,6 @@ let today = new Date();
 year.innerText = today.getFullYear();
 month.innerText = today.getMonth() + 1;
 date.innerText = today.getDate();
-
-cityName.addEventListener("keyup", function (event) {
-  if (event.keyCode == "13" || event.key === "enter") {
-    let result = cityName.value.trim();
-    getCityWeather(result);
-    cityName.value = "";
-  }
-});
-
-btn.addEventListener("click", function () {
-  let result = cityName.value.trim();
-  getCityWeather(result);
-  cityName.value = "";
-});
 
 function App() {
   navigator.geolocation.getCurrentPosition((position) => {
@@ -43,15 +28,6 @@ function App() {
 const getWeather = async (lat, lon) => {
   let response = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}&lang=kr&units=metric`
-  );
-
-  let data = await response.json();
-  updateUI(data);
-};
-
-const getCityWeather = async (cityName) => {
-  let response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${api_key}&lang=kr&units=metric`
   );
 
   let data = await response.json();

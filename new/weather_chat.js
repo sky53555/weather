@@ -1,4 +1,4 @@
-const api_key = config.apikey;
+const api_key = "e97d8ff6fd1cafbcba402e48257e2475";
 let temp = document.querySelector("#temp");
 let place = document.querySelector("#place");
 let wind = document.querySelector("#wind");
@@ -6,7 +6,7 @@ let des = document.querySelector("#des");
 let icon = document.querySelector("#icon");
 let btn = document.querySelector("button");
 let mo = document.querySelector("#mo");
-let cityName = document.querySelector(".name");
+let conName = document.querySelector(".name");
 
 let year = document.querySelector("#year");
 let month = document.querySelector("#month");
@@ -17,45 +17,62 @@ year.innerText = today.getFullYear();
 month.innerText = today.getMonth() + 1;
 date.innerText = today.getDate();
 
-cityName.addEventListener("keyup", function (event) {
+conName.addEventListener("keyup", function (event) {
   if (event.keyCode == "13" || event.key === "enter") {
-    let result = cityName.value.trim();
-    getCityWeather(result);
-    cityName.value = "";
+    let result = conName.value.trim();
+    getWeather(result);
+    conName.value = "";
   }
 });
 
 btn.addEventListener("click", function () {
-  let result = cityName.value.trim();
-  getCityWeather(result);
-  cityName.value = "";
+  let result = conName.value.trim();
+  getWeather(result);
+  conName.value = "";
 });
 
-function App() {
-  navigator.geolocation.getCurrentPosition((position) => {
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
-    getWeather(lat, lon);
+
+// 페이지 로드 시 현재 위치의 날씨를 가져오기
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const coords = await getCurrentCoordinates();
+    await getWeather("", coords.latitude, coords.longitude);
+  } catch (error) {
+    console.error("Error fetching current location weather data:", error);
+  }
+});
+
+// 현재 위치의 좌표를 가져오는 함수
+const getCurrentCoordinates = () => {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve(position.coords);
+      },
+      (error) => {
+        reject(error);
+      }
+    );
   });
-}
-
-// 날씨 정보를 가져오는 함수
-const getWeather = async (lat, lon) => {
-  let response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}&lang=kr&units=metric`
-  );
-
-  let data = await response.json();
-  updateUI(data);
 };
+// 날씨 정보를 가져오는 함수 (도시 이름 또는 좌표)
+const getWeather = async (cityName = null, lat = null, lon = null) => {
+  try {
+    let url;
+    if (cityName) {
+      url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${api_key}&lang=kr&units=metric`;
+    } else if (lat && lon) {
+      url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}&lang=kr&units=metric`;
+    } else {
+      throw new Error("에러");
+    }
 
-const getCityWeather = async (cityName) => {
-  let response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${api_key}&lang=kr&units=metric`
-  );
-
-  let data = await response.json();
-  updateUI(data);
+    let response = await fetch(url);
+    let data = await response.json();
+    updateUI(data);
+  } catch (error) {
+    console.error("에러:", error);
+  }
 };
 
 const updateUI = (data) => {
@@ -119,5 +136,3 @@ const updateUI = (data) => {
   void icon.offsetWidth; // 트리거 리플로우(reflow) to restart the animation
   icon.classList.add("fade-in");
 };
-
-App();
